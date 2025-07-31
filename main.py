@@ -1,1 +1,4 @@
-# beginning of project
+import art
+import random
+
+print(art.logo)
