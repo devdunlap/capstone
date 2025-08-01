@@ -57,8 +57,8 @@ def play_game():
         player_score = calculate_score(player_hand)
         computer_score = calculate_score(computer_hand)
 
-        print(f"   Your cards: {player_hand}, current score: {player_score}")
-        print(f"   Computer's first card: {computer_hand[0]}")
+        print(f"   Your cards: {[card['name'] for card in player_hand]}, current score: {player_score}")
+        print(f"   Computer's first card: {computer_hand[0]['name']}")
 
         if player_score == 21 or computer_score == 21 or player_score > 21:
             game_over = True
@@ -69,12 +69,25 @@ def play_game():
             else:
                 game_over = True
 
-    while computer_score < 17 and not game_over:
-        computer_hand.append(deal_card())
-        computer_score = calculate_score(computer_hand)
+    while computer_score <= 17 and not game_over:
+        if computer_score == 17:
+            # At 17, make a random decision favoring hitting (70% chance to hit)
+            if random.random() < 0.7:
+                computer_hand.append(deal_card())
+                computer_score = calculate_score(computer_hand)
+            else:
+                break
+        else:
+            # Below 17, always hit
+            computer_hand.append(deal_card())
+            computer_score = calculate_score(computer_hand)
+        
+        # If computer reaches 18-21, stop hitting
+        if 18 <= computer_score <= 21:
+            break
 
-    print(f"   Your final hand: {player_hand}, final score: {player_score}")
-    print(f"   Computer's final hand: {computer_hand}, final score: {computer_score}")
+    print(f"   Your final hand: {[card['name'] for card in player_hand]}, final score: {player_score}")
+    print(f"   Computer's final hand: {[card['name'] for card in computer_hand]}, final score: {computer_score}")
     print(compare(player_score, computer_score))
 if __name__ == "__main__":
     while input("Do you want to play a game of Blackjack? Type 'y' or 'n': ") == 'y':
