@@ -1,5 +1,10 @@
 import art
 import random
+import os
+
+def clear_screen():
+    """Clear the terminal screen."""
+    os.system('cls' if os.name == 'nt' else 'clear')
 
 print(art.logo)
 cards = [
@@ -30,6 +35,22 @@ def calculate_score(hand):
         score -= 10
     return score
 
+def format_cards(hand):
+    """Format cards for better display."""
+    return [card['name'] for card in hand]
+
+def display_hands(player_hand, computer_hand, player_score, show_computer_all=False):
+    """Display both hands in a formatted way."""
+    print("\n" + "="*50)
+    print(f"🃏 YOUR CARDS: {format_cards(player_hand)} | Score: {player_score}")
+    
+    if show_computer_all:
+        computer_score = calculate_score(computer_hand)
+        print(f"🤖 COMPUTER CARDS: {format_cards(computer_hand)} | Score: {computer_score}")
+    else:
+        print(f"🤖 COMPUTER CARDS: [{computer_hand[0]['name']}, ?] | Score: ?")
+    print("="*50 + "\n")
+
 def compare(player_score, computer_score):
     """Compares the scores of the player and computer."""
     if player_score > 21:
@@ -48,6 +69,12 @@ def compare(player_score, computer_score):
         return "You lose!"
 def play_game():
     """Main function to play the game."""
+    clear_screen()
+    print(art.logo)
+    print("🎰 Welcome to Blackjack! 🎰")
+    print("Goal: Get as close to 21 as possible without going over!")
+    print("Aces count as 11 or 1, Face cards count as 10\n")
+    
     player_hand = [deal_card(), deal_card()]
     computer_hand = [deal_card(), deal_card()]
 
@@ -57,26 +84,77 @@ def play_game():
         player_score = calculate_score(player_hand)
         computer_score = calculate_score(computer_hand)
 
-        print(f"   Your cards: {player_hand}, current score: {player_score}")
-        print(f"   Computer's first card: {computer_hand[0]}")
+        display_hands(player_hand, computer_hand, player_score)
 
-        if player_score == 21 or computer_score == 21 or player_score > 21:
+        # Check for immediate win/loss conditions
+        if player_score == 21:
+            print("🎉 BLACKJACK! You got 21!")
+            game_over = True
+        elif player_score > 21:
+            print("💥 BUST! You went over 21!")
+            game_over = True
+        elif computer_score == 21:
+            print("🤖 Computer got Blackjack!")
             game_over = True
         else:
-            should_continue = input("Type 'y' to get another card, type 'n' to pass: ")
-            if should_continue == 'y':
-                player_hand.append(deal_card())
-            else:
-                game_over = True
+            # Get user input with better prompts
+            while True:
+                choice = input("🎯 Hit (h) or Stand (s)? ").lower().strip()
+                if choice in ['h', 'hit', 'y']:
+                    player_hand.append(deal_card())
+                    new_card = player_hand[-1]
+                    print(f"🃏 You drew: {new_card['name']}")
+                    break
+                elif choice in ['s', 'stand', 'n']:
+                    game_over = True
+                    break
+                else:
+                    print("❌ Please enter 'h' for hit or 's' for stand")
 
+    # Computer's turn
+    print("\n🤖 Computer's turn...")
     while computer_score < 17 and not game_over:
         computer_hand.append(deal_card())
         computer_score = calculate_score(computer_hand)
+        print(f"🤖 Computer drew a card. Score: {computer_score}")
 
-    print(f"   Your final hand: {player_hand}, final score: {player_score}")
-    print(f"   Computer's final hand: {computer_hand}, final score: {computer_score}")
-    print(compare(player_score, computer_score))
+    # Final results
+    player_score = calculate_score(player_hand)  # Recalculate final score
+    print("\n" + "🏁 FINAL RESULTS " + "🏁".center(30, "="))
+    display_hands(player_hand, computer_hand, player_score, show_computer_all=True)
+    
+    result = compare(player_score, computer_score)
+    if "win" in result.lower() and "you win" in result.lower():
+        print("🎉 " + result + " 🎉")
+    elif "lose" in result.lower() and "you lose" in result.lower():
+        print("😔 " + result + " 😔")
+    else:
+        print("🤝 " + result + " 🤝")
+    
+    print("\n" + "="*50)
 if __name__ == "__main__":
-    while input("Do you want to play a game of Blackjack? Type 'y' or 'n': ") == 'y':
-        play_game()
-    print("Thanks for playing!")
+    # Initial welcome
+    clear_screen()
+    print(art.logo)
+    print("🎰✨ WELCOME TO BLACKJACK! ✨🎰")
+    
+    games_played = 0
+    
+    while True:
+        choice = input("\n🎮 Would you like to play Blackjack? (y/n): ").lower().strip()
+        
+        if choice in ['y', 'yes']:
+            games_played += 1
+            play_game()
+            
+            # Ask to play again with better formatting
+            input("\n⏭️  Press Enter to continue...")
+            
+        elif choice in ['n', 'no']:
+            break
+        else:
+            print("❌ Please enter 'y' for yes or 'n' for no")
+    
+    # Farewell message
+    print(f"\n🎉 Thanks for playing! You played {games_played} game(s).")
+    print("🃏 Come back anytime for more Blackjack fun! 🃏")
