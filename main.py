@@ -84,17 +84,10 @@ def play_game():
         player_score = calculate_score(player_hand)
         computer_score = calculate_score(computer_hand)
 
-        display_hands(player_hand, computer_hand, player_score)
+        print(f"   Your cards: {player_hand}, current score: {player_score}")
+        print(f"   Computer's first card: {computer_hand[0]}")
 
-        # Check for immediate win/loss conditions
-        if player_score == 21:
-            print("🎉 BLACKJACK! You got 21!")
-            game_over = True
-        elif player_score > 21:
-            print("💥 BUST! You went over 21!")
-            game_over = True
-        elif computer_score == 21:
-            print("🤖 Computer got Blackjack!")
+        if player_score == 21 or computer_score == 21 or player_score > 21:
             game_over = True
         else:
             # Get user input with better prompts
@@ -111,27 +104,13 @@ def play_game():
                 else:
                     print("❌ Please enter 'h' for hit or 's' for stand")
 
-    # Computer's turn
-    print("\n🤖 Computer's turn...")
     while computer_score < 17 and not game_over:
         computer_hand.append(deal_card())
         computer_score = calculate_score(computer_hand)
-        print(f"🤖 Computer drew a card. Score: {computer_score}")
 
-    # Final results
-    player_score = calculate_score(player_hand)  # Recalculate final score
-    print("\n" + "🏁 FINAL RESULTS " + "🏁".center(30, "="))
-    display_hands(player_hand, computer_hand, player_score, show_computer_all=True)
-    
-    result = compare(player_score, computer_score)
-    if "win" in result.lower() and "you win" in result.lower():
-        print("🎉 " + result + " 🎉")
-    elif "lose" in result.lower() and "you lose" in result.lower():
-        print("😔 " + result + " 😔")
-    else:
-        print("🤝 " + result + " 🤝")
-    
-    print("\n" + "="*50)
+    print(f"   Your final hand: {player_hand}, final score: {player_score}")
+    print(f"   Computer's final hand: {computer_hand}, final score: {computer_score}")
+    print(compare(player_score, computer_score))
 if __name__ == "__main__":
     # Initial welcome
     clear_screen()
