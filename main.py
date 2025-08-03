@@ -137,6 +137,3 @@ if __name__ == "__main__":
     # Farewell message
     print(f"\n🎉 Thanks for playing! You played {games_played} game(s).")
     print("🃏 Come back anytime for more Blackjack fun! 🃏")
-
-print(art.logo)
-# This is the ASCII art logo for the project.
