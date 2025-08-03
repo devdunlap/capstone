@@ -70,13 +70,13 @@ def compare(player_score, computer_score):
         return "Computer went over. You win!"
     if player_score == computer_score:
         return "It's a draw!"
-    
+
     # Check for blackjack scenarios
     if player_score == 21:
         return "Blackjack! You win!"
     if computer_score == 21:
         return "Computer has Blackjack! You lose!"
-    
+
     # Compare scores - no need for separate return, use conditional expression
     return "You win!" if player_score > computer_score else "You lose!"
 
