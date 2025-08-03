@@ -6,7 +6,7 @@ def clear_screen():
     """Clear the terminal screen."""
     os.system('cls' if os.name == 'nt' else 'clear')
 
-print(art.logo)
+print(art.LOGO)
 cards = [
     {"name": "A", "value": 11},     # Ace           
     {"name": "2", "value": 2},      # Two
@@ -70,7 +70,7 @@ def compare(player_score, computer_score):
 def play_game():
     """Main function to play the game."""
     clear_screen()
-    print(art.logo)
+    print(art.LOGO)
     print("🎰 Welcome to Blackjack! 🎰")
     print("Goal: Get as close to 21 as possible without going over!")
     print("Aces count as 11 or 1, Face cards count as 10\n")
@@ -114,7 +114,7 @@ def play_game():
 if __name__ == "__main__":
     # Initial welcome
     clear_screen()
-    print(art.logo)
+    print(art.LOGO)
     print("🎰✨ WELCOME TO BLACKJACK! ✨🎰")
     
     games_played = 0
@@ -137,6 +137,3 @@ if __name__ == "__main__":
     # Farewell message
     print(f"\n🎉 Thanks for playing! You played {games_played} game(s).")
     print("🃏 Come back anytime for more Blackjack fun! 🃏")
-
-print(art.logo)
-# This is the ASCII art logo for the project.

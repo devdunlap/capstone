@@ -1,4 +1,11 @@
-logo = r"""
+"""
+ASCII Art module for the Blackjack game.
+
+This module contains ASCII art graphics used in the blackjack card game,
+including the main logo that displays when the game starts.
+"""
+
+LOGO = r"""
 .------.            _     _            _    _            _    
 |A_  _ |.          | |   | |          | |  (_)          | |   
 |( \/ ).-----.     | |__ | | __ _  ___| | ___  __ _  ___| | __
