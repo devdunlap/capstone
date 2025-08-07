@@ -1,0 +1,9 @@
+# Development dependencies
+pylint>=3.0.0
+black>=23.0.0
+isort>=5.12.0
+bandit>=1.7.0
+safety>=2.3.0
+
+# No runtime dependencies needed for this project
+# All game functionality uses Python standard library only
